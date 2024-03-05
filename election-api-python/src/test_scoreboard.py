@@ -33,36 +33,53 @@ class TestScoreboard(unittest.TestCase):
         scoreboard: list = self.fetch_scoreboard()
         self.assertNotEqual(len(scoreboard), 0)
         # assert LD == 1
-		# assert LAB = 4
+        self.assertEqual(scoreboard["LD"], 1)
+        # assert LAB = 4
+        self.assertEqual(scoreboard["LAB"], 4)
 		# assert winner = noone
+        self.assertIsNone(scoreboard["winner"])
 
     def test_first_100(self) -> None:
         self.load_results(100)
         scoreboard: list = self.fetch_scoreboard()
         self.assertNotEqual(len(scoreboard), 0)
         # assert LD == 12
+        self.assertEqual(scoreboard["LD"], 12)
 		# assert LAB == 56
+        self.assertEqual(scoreboard["LAB"], 56)
 		# assert CON == 31
+        self.assertEqual(scoreboard["CON"], 31)
 		# assert winner = noone
+        self.assertIsNone(scoreboard["winner"])
 
     def test_first_554(self) -> None:
         self.load_results(554)
         scoreboard: list = self.fetch_scoreboard()
         self.assertNotEqual(len(scoreboard), 0)
         # assert LD == 52
+        self.assertEqual(scoreboard["LD"], 52)
 		# assert LAB = 325
+        self.assertEqual(scoreboard["LAB"], 325)
 		# assert CON = 167
+        self.assertEqual(scoreboard["CON"], 167)
 		# assert winner = LAB
+        self.assertEqual(scoreboard["winner"], "LAB")
 
     def test_all_results(self) -> None:
         self.load_results(650)
         scoreboard: list = self.fetch_scoreboard()
         self.assertNotEqual(len(scoreboard), 0)
         # assert LD == 62
+        self.assertEqual(scoreboard["LD"], 62)
 		# assert LAB == 349
+        self.assertEqual(scoreboard["LAB"], 349)
 		# assert CON == 210
+        self.assertEqual(scoreboard["CON"], 210)
 		# assert winner = LAB
+        self.assertEqual(scoreboard["winner"], "LAB")
 		# assert sum = 650
+        seat_sum = sum([seat_count for party, seat_count in scoreboard.items() if party != "winner"])
+        self.assertEqual(seat_sum, 650)
 
 if __name__ == "__main__":
     unittest.main()

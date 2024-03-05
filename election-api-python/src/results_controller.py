@@ -1,4 +1,5 @@
 from results_service import ResultStore
+from collections import Counter
 
 class ResultsController:
 
@@ -16,5 +17,21 @@ class ResultsController:
         self.store.reset()
     
     def scoreboard(self) -> dict:
-        # Left blank for you to fill in
-        return {}
+        winners = []
+        for result in self.store.get_all():
+            votes = []
+            parties = []
+            for party_res in result["partyResults"]:
+                parties.append(party_res["party"])
+                votes.append(party_res["votes"])
+            winners.append(parties[votes.index(max(votes))])
+        
+        score = dict(Counter(winners))
+        overall_winner = None
+        for party, seat_count in score.items():
+            if seat_count >= 325:
+                overall_winner = party
+                
+        score.update({"winner": overall_winner})
+        
+        return score
